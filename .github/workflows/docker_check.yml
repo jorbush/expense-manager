@@ -1,0 +1,31 @@
+name: Docker Check
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Compose
+      run: sudo apt-get install docker-compose
+
+    - name: Build and run Docker Compose
+      run: docker-compose up -d --build
+
+    - name: Test the running container
+      run: |
+        docker-compose ps
+        curl --fail http://localhost:8080 || (docker-compose logs && exit 1)
+
+    - name: Stop and remove containers
+      run: docker-compose down
