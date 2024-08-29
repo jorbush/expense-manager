@@ -1,4 +1,4 @@
-name: Docker Check
+name: Docker Compose Build and Test
 
 on:
   push:
@@ -22,10 +22,22 @@ jobs:
     - name: Build and run Docker Compose
       run: docker-compose up -d --build
 
-    - name: Test the running container
+    - name: Wait for container to be ready
       run: |
-        docker-compose ps
-        curl --fail http://localhost:8080 || (docker-compose logs && exit 1)
+        RETRIES=10
+        while [ $RETRIES -gt 0 ]; do
+          if curl --fail http://localhost:8080; then
+            echo "App is up and running!"
+            exit 0
+          else
+            echo "Waiting for the app to start..."
+            RETRIES=$((RETRIES-1))
+            sleep 5
+          fi
+        done
+        echo "App did not start in time."
+        docker-compose logs
+        exit 1
 
     - name: Stop and remove containers
       run: docker-compose down
