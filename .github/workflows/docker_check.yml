@@ -1,0 +1,43 @@
+name: Docker Compose Build and Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Compose
+      run: sudo apt-get install docker-compose
+
+    - name: Build and run Docker Compose
+      run: docker-compose up -d --build
+
+    - name: Wait for container to be ready
+      run: |
+        RETRIES=10
+        while [ $RETRIES -gt 0 ]; do
+          if curl --fail http://localhost:8080; then
+            echo "App is up and running!"
+            exit 0
+          else
+            echo "Waiting for the app to start..."
+            RETRIES=$((RETRIES-1))
+            sleep 5
+          fi
+        done
+        echo "App did not start in time."
+        docker-compose logs
+        exit 1
+
+    - name: Stop and remove containers
+      run: docker-compose down
