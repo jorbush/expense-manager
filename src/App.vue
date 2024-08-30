@@ -54,7 +54,11 @@
       const assignCategory = (description: string) => {
         const descriptionLower = description.toLowerCase();
         for (const [category, keywords] of Object.entries(categories.value)) {
-          if (keywords.some((keyword) => descriptionLower.includes(keyword))) {
+          if (
+            (keywords as string[]).some((keyword) =>
+              descriptionLower.includes(keyword)
+            )
+          ) {
             return category;
           }
         }

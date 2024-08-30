@@ -1,4 +1,5 @@
 export interface Transaction {
+  id: string;
   'F. Operativa': string;
   Concepto: string;
   'F. Valor': string;

@@ -87,13 +87,16 @@
           console.log(`Bank = ${bank}`);
           const worksheet = workbook.Sheets[workbook.SheetNames[0]];
           const json = XLSX.utils.sheet_to_json(worksheet);
-          const fields = Object.values(json[5]);
+          const fields =
+            json[5] && typeof json[5] === 'object' && !Array.isArray(json[5])
+              ? Object.values(json[5])
+              : [];
           // omit the six rows of headers
           json.splice(0, 6);
-          const mappedData = json.map((row: any[]) => {
+          const mappedData = (json as any[]).map((row: any) => {
             const rowData: { [key: string]: any } = {};
             const rowValues = Object.values(row);
-            fields.forEach((field: string, index: number) => {
+            (fields as string[]).forEach((field: string, index: number) => {
               rowData[field] = rowValues[index];
             });
             return rowData;
