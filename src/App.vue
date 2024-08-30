@@ -2,7 +2,7 @@
   <div class="container mx-auto p-8 max-w-screen-lg relative">
     <h1 class="text-3xl font-bold text-center mb-6">Expense Manager</h1>
     <div class="absolute top-0 right-0 mt-4 mr-4">
-      <UpgradeCategoriesButton />
+      <UpgradeCategoriesButton @categoriesUpdated="loadCategories" />
     </div>
     <FileUploader @fileLoaded="handleFileLoaded" />
     <TransactionTable :transactions="transactions" />
@@ -35,6 +35,11 @@
           localStorage.setItem('categories', JSON.stringify(defaultCategories));
           categories.value = defaultCategories;
         }
+
+        transactions.value = transactions.value.map((transaction) => ({
+          ...transaction,
+          Category: assignCategory(transaction.Concepto),
+        }));
       };
 
       const handleFileLoaded = (data: Transaction[]) => {
@@ -63,6 +68,7 @@
       return {
         transactions,
         handleFileLoaded,
+        loadCategories,
       };
     },
   });

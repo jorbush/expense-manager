@@ -1,27 +1,28 @@
 <template>
-    <div>
-      <button
-        @click="triggerFileUpload"
-        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-      >
-        Upgrade Categories
-      </button>
-      <input
-        type="file"
-        @change="handleCategoryFileUpload"
-        ref="categoryFileInput"
-        accept=".json"
-        class="hidden"
-      />
-    </div>
-  </template>
+  <div>
+    <button
+      @click="triggerFileUpload"
+      class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+    >
+      Upgrade Categories
+    </button>
+    <input
+      type="file"
+      @change="handleCategoryFileUpload"
+      ref="categoryFileInput"
+      accept=".json"
+      class="hidden"
+    />
+  </div>
+</template>
 
-  <script lang="ts">
+<script lang="ts">
   import { defineComponent, ref } from 'vue';
   import { toast } from 'vue3-toastify';
 
   export default defineComponent({
-    setup() {
+    emits: ['categoriesUpdated'],
+    setup(_, { emit }) {
       const categoryFileInput = ref<HTMLInputElement | null>(null);
 
       const triggerFileUpload = () => {
@@ -43,11 +44,15 @@
                 position: 'top-right',
                 autoClose: 3000,
               });
+              emit('categoriesUpdated');
             } catch (error) {
-              toast.error('Failed to update categories. Please make sure the JSON format is correct.', {
-                position: 'top-right',
-                autoClose: 3000,
-              });
+              toast.error(
+                'Failed to update categories. Please make sure the JSON format is correct.',
+                {
+                  position: 'top-right',
+                  autoClose: 3000,
+                }
+              );
             }
           };
           reader.readAsText(file);
@@ -61,4 +66,4 @@
       };
     },
   });
-  </script>
+</script>
