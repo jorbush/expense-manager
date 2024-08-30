@@ -1,6 +1,9 @@
 <template>
-  <div class="container mx-auto p-8 max-w-screen-lg">
+  <div class="container mx-auto p-8 max-w-screen-lg relative">
     <h1 class="text-3xl font-bold text-center mb-6">Expense Manager</h1>
+    <div class="absolute top-0 right-0 mt-4 mr-4">
+      <UpgradeCategoriesButton />
+    </div>
     <FileUploader @fileLoaded="handleFileLoaded" />
     <TransactionTable :transactions="transactions" />
   </div>
@@ -10,35 +13,25 @@
   import { defineComponent, ref } from 'vue';
   import FileUploader from './components/FileUploader.vue';
   import TransactionTable from './components/TransactionTable.vue';
+  import UpgradeCategoriesButton from './components/UpgradeCategoriesButton.vue';
   import { Transaction } from './types/Transaction';
 
   export default defineComponent({
     components: {
       FileUploader,
       TransactionTable,
+      UpgradeCategoriesButton,
     },
     setup() {
-      const transactions = ref<any[]>([]);
-      const categories = ref<any>({});
+      const transactions = ref<Transaction[]>([]);
+      const categories = ref<Record<string, string[]>>({});
 
       const loadCategories = () => {
         const storedCategories = localStorage.getItem('categories');
         if (storedCategories) {
           categories.value = JSON.parse(storedCategories);
         } else {
-          const defaultCategories = {
-            Food: [
-              'starbucks',
-              'mcdonalds',
-              'burger king',
-              'kfc',
-              'dominos',
-              'pizza hut',
-            ],
-            Transport: ['uber', 'lyft', 'taxi', 'metro', 'bus'],
-            Shopping: ['amazon', 'ebay', 'walmart', 'target', 'best buy'],
-            Others: [],
-          };
+          const defaultCategories = {};
           localStorage.setItem('categories', JSON.stringify(defaultCategories));
           categories.value = defaultCategories;
         }
