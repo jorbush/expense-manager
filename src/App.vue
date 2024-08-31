@@ -1,11 +1,14 @@
 <template>
-  <div class="font-sans container mx-auto p-8 max-w-screen-lg relative">
-    <h1 class="text-3xl font-bold text-center mb-6">Expense Manager</h1>
-    <div class="absolute top-0 right-0 mt-4 mr-4">
-      <UpgradeCategoriesButton @categoriesUpdated="loadCategories" />
+  <div class="font-sans flex">
+    <Sidebar @resultSelected="handleResultSelected" />
+    <div class="container mx-auto p-8 max-w-screen-lg relative">
+      <h1 class="text-3xl font-bold text-center mb-6">Expense Manager</h1>
+      <div class="absolute top-0 right-0 mt-4 mr-4">
+        <UpgradeCategoriesButton @categoriesUpdated="loadCategories" />
+      </div>
+      <FileUploader @fileLoaded="handleFileLoaded" />
+      <TransactionTable :transactions="transactions" />
     </div>
-    <FileUploader @fileLoaded="handleFileLoaded" />
-    <TransactionTable :transactions="transactions" />
   </div>
 </template>
 
@@ -14,6 +17,7 @@
   import FileUploader from './components/FileUploader.vue';
   import TransactionTable from './components/TransactionTable.vue';
   import UpgradeCategoriesButton from './components/UpgradeCategoriesButton.vue';
+  import Sidebar from './components/Sidebar.vue';
   import { Transaction } from './types/Transaction';
 
   export default defineComponent({
@@ -21,6 +25,7 @@
       FileUploader,
       TransactionTable,
       UpgradeCategoriesButton,
+      Sidebar,
     },
     setup() {
       const transactions = ref<Transaction[]>([]);
@@ -48,10 +53,7 @@
           Category: assignCategory(transaction.Concepto),
         }));
         const id = new Date().toISOString();
-        const result = {
-          id,
-          transactions: processedTransactions,
-        };
+        const result = { id, transactions: processedTransactions };
         const storedResults = JSON.parse(
           localStorage.getItem('results') || '[]'
         );
@@ -74,12 +76,25 @@
         return 'Others';
       };
 
+      const handleResultSelected = (id: string) => {
+        const storedResults = JSON.parse(
+          localStorage.getItem('results') || '[]'
+        );
+        const selectedResult = storedResults.find(
+          (result: any) => result.id === id
+        );
+        if (selectedResult) {
+          transactions.value = selectedResult.transactions;
+        }
+      };
+
       loadCategories();
 
       return {
         transactions,
         handleFileLoaded,
         loadCategories,
+        handleResultSelected,
       };
     },
   });
