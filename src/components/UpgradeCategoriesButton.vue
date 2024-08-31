@@ -2,7 +2,7 @@
   <div>
     <button
       @click="triggerFileUpload"
-      class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800"
+      class="bg-vue-400 text-white px-4 py-2 rounded hover:bg-vue-600 dark:bg-vue-700 dark:hover:bg-vue-800"
     >
       <span class="hidden sm:inline">Upgrade Categories</span>
       <svg
