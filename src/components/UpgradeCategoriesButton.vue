@@ -2,22 +2,22 @@
   <div>
     <button
       @click="triggerFileUpload"
-      class="bg-blue-500 text-white px-3 sm:px-4 py-2 rounded hover:bg-blue-600 flex items-center"
+      class="bg-vue-400 text-white px-4 py-2 rounded hover:bg-vue-600 dark:bg-vue-700 dark:hover:bg-vue-800"
     >
       <span class="hidden sm:inline">Upgrade Categories</span>
       <svg
-        xmlns="http://www.w3.org/2000/svg"
         class="w-6 h-6 sm:hidden"
         fill="none"
-        viewBox="0 0 24 24"
         stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
       >
         <path
           stroke-linecap="round"
           stroke-linejoin="round"
           stroke-width="2"
-          d="M4 7h16M4 12h16m-7 5h7"
-        />
+          d="M12 4v16m8-8H4"
+        ></path>
       </svg>
     </button>
     <input
