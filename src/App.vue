@@ -10,8 +10,7 @@
       <div class="flex-1 relative">
         <HamburgerButton @toggle="toggleSidebar" />
         <div class="container mx-auto p-8 max-w-screen-lg relative">
-          <ThemeToggleButton class="mr-4" />
-
+          <ThemeToggleButton class="ml-8" />
           <div class="flex justify-center items-center mb-6">
             <h1 class="text-3xl font-bold">Expense Manager</h1>
           </div>
