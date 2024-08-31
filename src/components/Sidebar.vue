@@ -35,6 +35,7 @@
 
       onMounted(() => {
         loadResults();
+        document.addEventListener('updateResults', loadResults);
       });
 
       return {

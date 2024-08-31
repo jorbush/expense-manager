@@ -1,13 +1,43 @@
 <template>
-  <div class="font-sans flex">
-    <Sidebar @resultSelected="handleResultSelected" />
-    <div class="container mx-auto p-8 max-w-screen-lg relative">
-      <h1 class="text-3xl font-bold text-center mb-6">Expense Manager</h1>
-      <div class="absolute top-0 right-0 mt-4 mr-4">
-        <UpgradeCategoriesButton @categoriesUpdated="loadCategories" />
+  <div class="font-sans flex h-screen">
+    <div
+      :class="[
+        'transition-transform duration-300',
+        { '-translate-x-full': !isSidebarVisible },
+      ]"
+    >
+      <Sidebar @resultSelected="handleResultSelected" />
+    </div>
+    <div class="flex-1 relative">
+      <div class="absolute top-0 left-0 mt-4 ml-4">
+        <button
+          @click="toggleSidebar"
+          class="text-gray-600 focus:outline-none focus:ring"
+        >
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            ></path>
+          </svg>
+        </button>
       </div>
-      <FileUploader @fileLoaded="handleFileLoaded" />
-      <TransactionTable :transactions="transactions" />
+      <div class="container mx-auto p-8 max-w-screen-lg relative">
+        <h1 class="text-3xl font-bold text-center mb-6">Expense Manager</h1>
+        <div class="absolute top-0 right-0 mt-4 mr-4">
+          <UpgradeCategoriesButton @categoriesUpdated="loadCategories" />
+        </div>
+        <FileUploader @fileLoaded="handleFileLoaded" />
+        <TransactionTable :transactions="transactions" />
+      </div>
     </div>
   </div>
 </template>
@@ -30,6 +60,7 @@
     setup() {
       const transactions = ref<Transaction[]>([]);
       const categories = ref<Record<string, string[]>>({});
+      const isSidebarVisible = ref(false);
 
       const loadCategories = () => {
         const storedCategories = localStorage.getItem('categories');
@@ -60,6 +91,8 @@
         storedResults.push(result);
         localStorage.setItem('results', JSON.stringify(storedResults));
         transactions.value = processedTransactions;
+        const sidebarComponent = document.querySelector('sidebar');
+        sidebarComponent?.dispatchEvent(new Event('updateResults'));
       };
 
       const assignCategory = (description: string) => {
@@ -88,6 +121,10 @@
         }
       };
 
+      const toggleSidebar = () => {
+        isSidebarVisible.value = !isSidebarVisible.value;
+      };
+
       loadCategories();
 
       return {
@@ -95,6 +132,8 @@
         handleFileLoaded,
         loadCategories,
         handleResultSelected,
+        isSidebarVisible,
+        toggleSidebar,
       };
     },
   });
