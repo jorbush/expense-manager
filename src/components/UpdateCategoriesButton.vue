@@ -4,7 +4,7 @@
       @click="triggerFileUpload"
       class="bg-vue-400 text-white px-4 py-2 rounded hover:bg-vue-600 dark:bg-vue-700 dark:hover:bg-vue-800"
     >
-      <span class="hidden sm:inline">Upgrade Categories</span>
+      <span class="hidden sm:inline">Update Categories</span>
       <svg
         class="w-6 h-6 sm:hidden"
         fill="none"
