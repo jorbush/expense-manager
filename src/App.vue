@@ -52,7 +52,9 @@
           id,
           transactions: processedTransactions,
         };
-        const storedResults = JSON.parse(localStorage.getItem('results') || '[]');
+        const storedResults = JSON.parse(
+          localStorage.getItem('results') || '[]'
+        );
         storedResults.push(result);
         localStorage.setItem('results', JSON.stringify(storedResults));
         transactions.value = processedTransactions;
