@@ -2,9 +2,23 @@
   <div>
     <button
       @click="triggerFileUpload"
-      class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+      class="bg-blue-500 text-white px-3 sm:px-4 py-2 rounded hover:bg-blue-600 flex items-center"
     >
-      Upgrade Categories
+      <span class="hidden sm:inline">Upgrade Categories</span>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-6 h-6 sm:hidden"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 7h16M4 12h16m-7 5h7"
+        />
+      </svg>
     </button>
     <input
       type="file"
