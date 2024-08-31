@@ -5,27 +5,25 @@
       @resultSelected="handleResultSelected"
     />
     <div class="flex-1 relative">
-      <div class="absolute top-0 left-0 mt-4 ml-4">
-        <button
-          @click="toggleSidebar"
-          class="text-gray-600 focus:outline-none focus:ring"
+      <button
+        @click="toggleSidebar"
+        class="text-gray-600 focus:outline-none focus:ring fixed top-4 left-4 z-50"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <svg
-            class="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            ></path>
-          </svg>
-        </button>
-      </div>
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          ></path>
+        </svg>
+      </button>
       <div class="container mx-auto p-8 max-w-screen-lg relative">
         <h1 class="text-3xl font-bold text-center mb-6">Expense Manager</h1>
         <div class="absolute top-0 right-0 mt-4 mr-4">

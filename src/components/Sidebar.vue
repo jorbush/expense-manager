@@ -1,15 +1,15 @@
 <template>
   <div
-    class="fixed top-0 left-0 w-64 h-full bg-gray-200 shadow-md transition-transform duration-300 z-50"
+    class="fixed top-0 left-0 w-64 h-full bg-gray-200 shadow-md transition-transform duration-300 z-40"
     :class="{ '-translate-x-full': !isVisible, 'translate-x-0': isVisible }"
   >
-    <h2 class="text-lg font-bold p-4">Saved Results</h2>
+    <h2 class="pl-20 text-lg font-bold p-4">History</h2>
     <ul>
       <li
         v-for="result in results"
         :key="result.id"
         @click="selectResult(result.id)"
-        class="cursor-pointer p-2 hover:bg-gray-300"
+        class="cursor-pointer p-2 px-5 hover:bg-gray-300"
       >
         {{ result.id }}
       </li>
@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref, onMounted, watch } from 'vue';
+  import { defineComponent, ref, onMounted } from 'vue';
 
   export default defineComponent({
     props: {
