@@ -43,10 +43,19 @@
       };
 
       const handleFileLoaded = (data: Transaction[]) => {
-        transactions.value = data.map((transaction) => ({
+        const processedTransactions = data.map((transaction) => ({
           ...transaction,
           Category: assignCategory(transaction.Concepto),
         }));
+        const id = new Date().toISOString();
+        const result = {
+          id,
+          transactions: processedTransactions,
+        };
+        const storedResults = JSON.parse(localStorage.getItem('results') || '[]');
+        storedResults.push(result);
+        localStorage.setItem('results', JSON.stringify(storedResults));
+        transactions.value = processedTransactions;
       };
 
       const assignCategory = (description: string) => {
