@@ -1,18 +1,26 @@
 <template>
-  <div class="flex h-screen">
-    <Sidebar
-      :isVisible="isSidebarVisible"
-      @resultSelected="handleResultSelected"
-    />
-    <div class="flex-1 relative">
-      <HamburgerButton @toggle="toggleSidebar" />
-      <div class="container mx-auto p-8 max-w-screen-lg relative">
-        <h1 class="text-3xl font-bold text-center mb-6">Expense Manager</h1>
-        <div class="absolute top-0 right-0 mt-4 mr-4">
-          <UpgradeCategoriesButton @categoriesUpdated="loadCategories" />
+  <div :class="darkMode ? 'dark ' : ''">
+    <div
+      class="flex h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+    >
+      <Sidebar
+        :isVisible="isSidebarVisible"
+        @resultSelected="handleResultSelected"
+      />
+      <div class="flex-1 relative">
+        <HamburgerButton @toggle="toggleSidebar" />
+        <div class="container mx-auto p-8 max-w-screen-lg relative">
+          <ThemeToggleButton class="mr-4" />
+
+          <div class="flex justify-center items-center mb-6">
+            <h1 class="text-3xl font-bold">Expense Manager</h1>
+          </div>
+          <div class="absolute top-0 right-0 mt-4 mr-4">
+            <UpgradeCategoriesButton @categoriesUpdated="loadCategories" />
+          </div>
+          <FileUploader @fileLoaded="handleFileLoaded" />
+          <TransactionTable :transactions="transactions" />
         </div>
-        <FileUploader @fileLoaded="handleFileLoaded" />
-        <TransactionTable :transactions="transactions" />
       </div>
     </div>
   </div>
@@ -25,6 +33,7 @@
   import UpgradeCategoriesButton from './components/UpgradeCategoriesButton.vue';
   import Sidebar from './components/Sidebar.vue';
   import HamburgerButton from './components/HamburgerButton.vue';
+  import ThemeToggleButton from './components/ThemeToggleButton.vue'; // Importar el nuevo componente
   import { Transaction } from './types/Transaction';
 
   export default defineComponent({
@@ -34,11 +43,13 @@
       UpgradeCategoriesButton,
       Sidebar,
       HamburgerButton,
+      ThemeToggleButton, // Incluir el nuevo componente
     },
     setup() {
       const transactions = ref<Transaction[]>([]);
       const categories = ref<Record<string, string[]>>({});
       const isSidebarVisible = ref(false);
+      const darkMode = ref(false);
 
       const loadCategories = () => {
         const storedCategories = localStorage.getItem('categories');
@@ -111,6 +122,7 @@
         handleResultSelected,
         isSidebarVisible,
         toggleSidebar,
+        darkMode,
       };
     },
   });

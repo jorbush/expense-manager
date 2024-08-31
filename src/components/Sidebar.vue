@@ -1,7 +1,10 @@
 <template>
   <div
-    class="fixed top-0 left-0 w-64 h-full bg-gray-200 shadow-md transition-transform duration-300 z-40"
-    :class="{ '-translate-x-full': !isVisible, 'translate-x-0': isVisible }"
+    :class="[
+      'fixed inset-y-0 left-0 transform transition-transform duration-300 ease-in-out z-40',
+      isVisible ? 'translate-x-0' : '-translate-x-full',
+      'w-64 bg-gray-100 dark:bg-gray-800 shadow-md overflow-y-auto',
+    ]"
   >
     <h2 class="pl-20 text-lg font-bold p-4">History</h2>
     <ul>
