@@ -23,6 +23,7 @@
         </div>
       </div>
     </div>
+    <Footer />
   </div>
 </template>
 
@@ -33,7 +34,8 @@
   import UpgradeCategoriesButton from './components/UpgradeCategoriesButton.vue';
   import Sidebar from './components/Sidebar.vue';
   import HamburgerButton from './components/HamburgerButton.vue';
-  import ThemeToggleButton from './components/ThemeToggleButton.vue'; // Importar el nuevo componente
+  import ThemeToggleButton from './components/ThemeToggleButton.vue';
+  import Footer from './components/Footer.vue';
   import { Transaction } from './types/Transaction';
 
   export default defineComponent({
@@ -43,7 +45,8 @@
       UpgradeCategoriesButton,
       Sidebar,
       HamburgerButton,
-      ThemeToggleButton, // Incluir el nuevo componente
+      ThemeToggleButton,
+      Footer,
     },
     setup() {
       const transactions = ref<Transaction[]>([]);
