@@ -1,6 +1,9 @@
 <template>
-  <div class="sidebar bg-gray-200 p-4 w-64 h-full">
-    <h2 class="text-lg font-bold mb-4">Saved Results</h2>
+  <div
+    class="fixed top-0 left-0 w-64 h-full bg-gray-200 shadow-md transition-transform duration-300 z-50"
+    :class="{ '-translate-x-full': !isVisible, 'translate-x-0': isVisible }"
+  >
+    <h2 class="text-lg font-bold p-4">Saved Results</h2>
     <ul>
       <li
         v-for="result in results"
@@ -15,9 +18,15 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref, onMounted } from 'vue';
+  import { defineComponent, ref, onMounted, watch } from 'vue';
 
   export default defineComponent({
+    props: {
+      isVisible: {
+        type: Boolean,
+        required: true,
+      },
+    },
     emits: ['resultSelected'],
     setup(_, { emit }) {
       const results = ref<{ id: string; transactions: any[] }[]>([]);
@@ -33,9 +42,13 @@
         emit('resultSelected', id);
       };
 
+      const updateResults = () => {
+        loadResults();
+      };
+
       onMounted(() => {
         loadResults();
-        document.addEventListener('updateResults', loadResults);
+        document.addEventListener('updateResults', updateResults);
       });
 
       return {
@@ -45,3 +58,13 @@
     },
   });
 </script>
+
+<style scoped>
+  .translate-x-0 {
+  transform: translateX(0);
+}
+
+.-translate-x-full {
+  transform: translateX(-100%);
+}
+</style>

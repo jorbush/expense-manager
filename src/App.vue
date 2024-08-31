@@ -1,13 +1,9 @@
 <template>
-  <div class="font-sans flex h-screen">
-    <div
-      :class="[
-        'transition-transform duration-300',
-        { '-translate-x-full': !isSidebarVisible },
-      ]"
-    >
-      <Sidebar @resultSelected="handleResultSelected" />
-    </div>
+  <div class="flex h-screen">
+    <Sidebar
+      :isVisible="isSidebarVisible"
+      @resultSelected="handleResultSelected"
+    />
     <div class="flex-1 relative">
       <div class="absolute top-0 left-0 mt-4 ml-4">
         <button
@@ -91,8 +87,7 @@
         storedResults.push(result);
         localStorage.setItem('results', JSON.stringify(storedResults));
         transactions.value = processedTransactions;
-        const sidebarComponent = document.querySelector('sidebar');
-        sidebarComponent?.dispatchEvent(new Event('updateResults'));
+        document.dispatchEvent(new Event('updateResults'));
       };
 
       const assignCategory = (description: string) => {
