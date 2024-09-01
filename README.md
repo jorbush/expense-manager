@@ -23,6 +23,14 @@ Run the web application in a Docker container:
 docker-compose up --build
 ```
 
+## Run tests
+
+This project uses [Vitest](https://vitest.dev/) for testing:
+
+```bash
+npm run test
+```
+
 ## Formatting
 
 This project uses [Prettier](https://prettier.io/) for code formatting:
