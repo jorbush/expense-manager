@@ -3,6 +3,7 @@
     <button
       @click="triggerFileUpload"
       class="bg-gradient-to-r from-vue-400 to-vue-500 text-white px-4 py-2 rounded hover:bg-gradient-to-r hover:from-vue-600 hover:to-vue-700 dark:bg-vue-700 dark:hover:bg-vue-800"
+      aria-label="Import Categories"
     >
       <span class="hidden sm:inline">Import Categories</span>
       <svg
