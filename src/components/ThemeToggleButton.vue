@@ -2,6 +2,7 @@
   <button
     @click="toggleTheme"
     class="text-gray-600 dark:text-gray-300 focus:outline-none focus:ring"
+    aria-label="Toggle theme"
   >
     <svg
       v-if="isDarkMode"

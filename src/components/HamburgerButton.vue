@@ -2,6 +2,7 @@
   <button
     @click="toggleSidebar"
     class="text-gray-600 focus:outline-none focus:ring fixed top-4 left-4 z-50"
+    aria-label="Toggle sidebar"
   >
     <svg
       class="w-6 h-6"
