@@ -1,31 +1,33 @@
 <template>
   <div :class="darkMode ? 'dark ' : ''">
     <div
-      class="flex h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+      class="flex flex-col min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
     >
-      <Sidebar
-        :isVisible="isSidebarVisible"
-        @resultSelected="handleResultSelected"
-      />
-      <div class="flex-1 relative">
-        <HamburgerButton @toggle="toggleSidebar" />
-        <div class="container mx-auto p-8 max-w-screen-lg relative">
-          <ThemeToggleButton class="ml-8" />
-          <div class="flex justify-center items-center mb-6">
-            <h1 class="text-3xl font-bold">Expense Manager</h1>
-          </div>
-          <div class="absolute top-0 right-0 mt-4 mr-4">
-            <div class="flex flex-row gap-2 sm:gap-4">
-              <ImportCategoriesButton @categoriesUpdated="loadCategories" />
-              <ExportCategoriesButton />
+      <div class="flex h-full">
+        <Sidebar
+          :isVisible="isSidebarVisible"
+          @resultSelected="handleResultSelected"
+        />
+        <div class="flex-1 relative">
+          <HamburgerButton @toggle="toggleSidebar" />
+          <div class="container mx-auto p-8 max-w-screen-lg relative">
+            <ThemeToggleButton class="ml-8" />
+            <div class="flex justify-center items-center mb-6">
+              <h1 class="text-3xl font-bold">Expense Manager</h1>
             </div>
+            <div class="absolute top-0 right-0 mt-4 mr-4">
+              <div class="flex flex-row gap-2 sm:gap-4">
+                <ImportCategoriesButton @categoriesUpdated="loadCategories" />
+                <ExportCategoriesButton />
+              </div>
+            </div>
+            <FileUploader @fileLoaded="handleFileLoaded" />
+            <TransactionTable :transactions="transactions" />
           </div>
-          <FileUploader @fileLoaded="handleFileLoaded" />
-          <TransactionTable :transactions="transactions" />
         </div>
       </div>
+      <Footer class="mt-auto" />
     </div>
-    <Footer />
   </div>
 </template>
 
