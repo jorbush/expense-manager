@@ -24,6 +24,7 @@
 
 <script lang="ts">
   import { defineComponent } from 'vue';
+  import { toast } from 'vue3-toastify';
 
   export default defineComponent({
     setup() {
@@ -38,7 +39,10 @@
           link.click();
           URL.revokeObjectURL(url);
         } else {
-          alert('No categories found in local storage.');
+          toast.error('No categories found in local storage.', {
+            position: 'top-right',
+            autoClose: 3000,
+          });
         }
       };
 
