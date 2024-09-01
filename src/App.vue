@@ -15,7 +15,7 @@
             <h1 class="text-3xl font-bold">Expense Manager</h1>
           </div>
           <div class="absolute top-0 right-0 mt-4 mr-4">
-            <UpdateCategoriesButton @categoriesUpdated="loadCategories" />
+            <ImportCategoriesButton @categoriesUpdated="loadCategories" />
           </div>
           <FileUploader @fileLoaded="handleFileLoaded" />
           <TransactionTable :transactions="transactions" />
@@ -30,7 +30,7 @@
   import { defineComponent, ref } from 'vue';
   import FileUploader from './components/FileUploader.vue';
   import TransactionTable from './components/TransactionTable.vue';
-  import UpdateCategoriesButton from './components/UpdateCategoriesButton.vue';
+  import ImportCategoriesButton from './components/ImportCategoriesButton.vue';
   import Sidebar from './components/Sidebar.vue';
   import HamburgerButton from './components/HamburgerButton.vue';
   import ThemeToggleButton from './components/ThemeToggleButton.vue';
@@ -41,7 +41,7 @@
     components: {
       FileUploader,
       TransactionTable,
-      UpdateCategoriesButton,
+      ImportCategoriesButton,
       Sidebar,
       HamburgerButton,
       ThemeToggleButton,
