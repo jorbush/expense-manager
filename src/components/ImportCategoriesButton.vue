@@ -4,20 +4,21 @@
       @click="triggerFileUpload"
       class="bg-vue-400 text-white px-4 py-2 rounded hover:bg-vue-600 dark:bg-vue-700 dark:hover:bg-vue-800"
     >
-      <span class="hidden sm:inline">Upgrade Categories</span>
+      <span class="hidden sm:inline">Import Categories</span>
       <svg
         class="w-6 h-6 sm:hidden"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
+        aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        fill="currentColor"
+        viewBox="0 0 24 24"
       >
         <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M12 4v16m8-8H4"
-        ></path>
+          fill-rule="evenodd"
+          d="M9 7V2.221a2 2 0 0 0-.5.365L4.586 6.5a2 2 0 0 0-.365.5H9Zm2 0V2h7a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-5h7.586l-.293.293a1 1 0 0 0 1.414 1.414l2-2a1 1 0 0 0 0-1.414l-2-2a1 1 0 0 0-1.414 1.414l.293.293H4V9h5a2 2 0 0 0 2-2Z"
+          clip-rule="evenodd"
+        />
       </svg>
     </button>
     <input
@@ -54,14 +55,14 @@
             try {
               const newCategories = JSON.parse(e.target?.result as string);
               localStorage.setItem('categories', JSON.stringify(newCategories));
-              toast.success('Categories updated successfully!', {
+              toast.success('Categories imported successfully!', {
                 position: 'top-right',
                 autoClose: 3000,
               });
               emit('categoriesUpdated');
             } catch (error) {
               toast.error(
-                'Failed to update categories. Please make sure the JSON format is correct.',
+                'Failed to import categories. Please make sure the JSON format is correct.',
                 {
                   position: 'top-right',
                   autoClose: 3000,
