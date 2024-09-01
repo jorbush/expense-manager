@@ -14,11 +14,11 @@
           <div class="flex justify-center items-center mb-6">
             <h1 class="text-3xl font-bold">Expense Manager</h1>
           </div>
-          <div class="absolute top-12 right-0 mt-4 mr-4">
-            <ExportCategoriesButton />
-          </div>
           <div class="absolute top-0 right-0 mt-4 mr-4">
-            <ImportCategoriesButton @categoriesUpdated="loadCategories" />
+            <div class="flex flex-row gap-2 sm:gap-4">
+              <ImportCategoriesButton @categoriesUpdated="loadCategories" />
+              <ExportCategoriesButton />
+            </div>
           </div>
           <FileUploader @fileLoaded="handleFileLoaded" />
           <TransactionTable :transactions="transactions" />
