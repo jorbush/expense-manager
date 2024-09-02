@@ -10,7 +10,7 @@
         Categorize Transactions
       </h2>
       <div class="flex justify-end space-x-4 mb-4">
-        <ImportCategoriesButton @categoriesUpdated="loadCategories" />
+        <ImportCategoriesButton @categoriesUpdated="updateCategories" />
         <ExportCategoriesButton />
       </div>
       <CategoryManager
@@ -81,9 +81,6 @@
     },
     emits: ['close', 'categoriesUpdated'],
     setup(props, { emit }) {
-      const loadCategories = () => {
-        categories.value = updatedCategories;
-      };
 
       const updateCategories = (
         updatedCategories: Record<string, string[]>
@@ -108,7 +105,6 @@
       };
 
       return {
-        loadCategories,
         updateCategories,
         saveChanges,
         closeModal,
