@@ -137,7 +137,7 @@
         );
         if (selectedResult) {
           transactions.value = selectedResult.transactions.map(
-            (transaction) => ({
+            (transaction: Transaction) => ({
               ...transaction,
               Category: assignCategory(transaction.Concepto),
             })
