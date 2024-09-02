@@ -18,7 +18,7 @@
       >
         <input
           v-model="localCategories[category][index]"
-          class="border rounded w-full px-2 py-1"
+          class="border rounded w-full px-2 py-1 bg-transparent"
         />
         <button
           @click="removeKeyword(String(category), index)"
