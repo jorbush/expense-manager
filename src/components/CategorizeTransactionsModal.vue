@@ -4,7 +4,7 @@
     class="fixed inset-0 z-50 flex items-center justify-center"
   >
     <div
-      class="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-3xl p-6 relative"
+      class="bg-white dark:bg-gray-800 overflow-y-auto max-w-[100vw] sm:max-w-[80vw] max-h-screen sm:max-h-[80vh] rounded-lg shadow-lg w-full p-6 relative"
     >
       <h2 class="text-2xl font-bold mb-4 text-center">
         Categorize Transactions
@@ -82,7 +82,7 @@
     emits: ['close', 'categoriesUpdated'],
     setup(props, { emit }) {
       const loadCategories = () => {
-        emit('categoriesUpdated');
+        categories.value = updatedCategories;
       };
 
       const updateCategories = (
@@ -92,7 +92,14 @@
       };
 
       const saveChanges = () => {
-        localStorage.setItem('categories', JSON.stringify(props.categories));
+        try {
+          localStorage.setItem('categories', JSON.stringify(props.categories));
+        } catch (error) {
+          toast.error('Error saving categories. Please try again.', {
+            position: 'top-right',
+            autoClose: 3000,
+          });
+        }
         emit('close');
       };
 

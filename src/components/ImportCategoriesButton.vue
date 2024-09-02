@@ -35,6 +35,7 @@
 <script lang="ts">
   import { defineComponent, ref } from 'vue';
   import { toast } from 'vue3-toastify';
+  import { isValidCategoryStructure } from '../utils.ts';
 
   export default defineComponent({
     emits: ['categoriesUpdated'],
@@ -55,13 +56,27 @@
           reader.onload = (e) => {
             try {
               const newCategories = JSON.parse(e.target?.result as string);
-              localStorage.setItem('categories', JSON.stringify(newCategories));
-              toast.success('Categories imported successfully!', {
-                position: 'top-right',
-                autoClose: 3000,
-              });
-              emit('categoriesUpdated');
+              if (isValidCategoryStructure(newCategories)) {
+                localStorage.setItem(
+                  'categories',
+                  JSON.stringify(newCategories)
+                );
+                toast.success('Categories imported successfully!', {
+                  position: 'top-right',
+                  autoClose: 3000,
+                });
+                emit('categoriesUpdated', newCategories || {});
+              } else {
+                toast.error(
+                  'The imported file does not have the correct structure.',
+                  {
+                    position: 'top-right',
+                    autoClose: 3000,
+                  }
+                );
+              }
             } catch (error) {
+              console.log(error);
               toast.error(
                 'Failed to import categories. Please make sure the JSON format is correct.',
                 {

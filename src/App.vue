@@ -32,7 +32,7 @@
       <Footer class="mt-auto" />
       <CategorizeTransactionsModal
         :isOpen="isCategorizeModalOpen"
-        :categories="categories"
+        :categories="categories || {}"
         @close="closeCategorizeModal"
         @categoriesUpdated="updateCategories"
       />
@@ -50,6 +50,7 @@
   import Footer from './components/Footer.vue';
   import CategorizeTransactionsModal from './components/CategorizeTransactionsModal.vue';
   import { Transaction } from './types/Transaction';
+  import { isValidCategoryStructure } from './utils.ts';
 
   export default defineComponent({
     components: {
@@ -69,19 +70,31 @@
       const darkMode = ref(false);
 
       const loadCategories = () => {
-        const storedCategories = localStorage.getItem('categories');
-        if (storedCategories) {
-          categories.value = JSON.parse(storedCategories);
-        } else {
-          const defaultCategories = {};
-          localStorage.setItem('categories', JSON.stringify(defaultCategories));
-          categories.value = defaultCategories;
-        }
+        try {
+          const storedCategories = localStorage.getItem('categories');
+          if (storedCategories) {
+            categories.value = JSON.parse(storedCategories);
+            if (!isValidCategoryStructure(categories.value)) {
+              throw new Error('Invalid category structure');
+            }
+          } else {
+            const defaultCategories = {};
+            localStorage.setItem(
+              'categories',
+              JSON.stringify(defaultCategories)
+            );
+            categories.value = defaultCategories;
+          }
 
-        transactions.value = transactions.value.map((transaction) => ({
-          ...transaction,
-          Category: assignCategory(transaction.Concepto),
-        }));
+          transactions.value = transactions.value.map((transaction) => ({
+            ...transaction,
+            Category: assignCategory(transaction.Concepto),
+          }));
+        } catch (error) {
+          console.error('Error loading categories:', error);
+          categories.value = {};
+          localStorage.setItem('categories', JSON.stringify(categories.value));
+        }
       };
 
       const handleFileLoaded = (data: Transaction[]) => {
@@ -131,14 +144,19 @@
       };
 
       const openCategorizeModal = () => {
-        isCategorizeModalOpen.value = true;
+        if (!isCategorizeModalOpen.value) {
+          loadCategories();
+          isCategorizeModalOpen.value = true;
+        }
       };
 
       const closeCategorizeModal = () => {
         isCategorizeModalOpen.value = false;
       };
 
-      const updateCategories = (updatedCategories: Record<string, string[]>) => {
+      const updateCategories = (
+        updatedCategories: Record<string, string[]>
+      ) => {
         categories.value = updatedCategories;
         localStorage.setItem('categories', JSON.stringify(updatedCategories));
       };
