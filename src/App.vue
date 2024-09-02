@@ -16,31 +16,7 @@
               <h1 class="text-3xl font-bold">Expense Manager</h1>
             </div>
             <div class="absolute top-0 right-0 mt-4 mr-4">
-              <button
-                @click="openCategorizeModal"
-                class="bg-gradient-to-r from-vue-400 to-vue-500 text-white px-4 py-2 rounded hover:bg-gradient-to-r hover:from-vue-600 hover:to-vue-700 dark:bg-vue-700 dark:hover:bg-vue-800"
-                aria-label="Categorize Transactions"
-              >
-                <span class="hidden sm:inline">Categorize Transactions</span>
-                <svg
-                  class="w-6 h-6 sm:hidden"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M20 10H4v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8ZM9 13v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1Z"
-                    clip-rule="evenodd"
-                  />
-                  <path
-                    d="M2 6a2 2 0 0 1 2-2h16a2 2 0 1 1 0 4H4a2 2 0 0 1-2-2Z"
-                  />
-                </svg>
-              </button>
+              <CategorizeTransactionsButton @click="openCategorizeModal" />
             </div>
             <FileUploader @fileLoaded="handleFileLoaded" />
 
@@ -68,6 +44,9 @@
   import ThemeToggleButton from './components/ThemeToggleButton.vue';
   import Footer from './components/Footer.vue';
   import CategorizeTransactionsModal from './components/CategorizeTransactionsModal.vue';
+  import CategorizeTransactionsButton from './components/CategorizeTransactionsButton.vue';
+  import ImportCategoriesButton from './components/ImportCategoriesButton.vue';
+  import ExportCategoriesButton from './components/ExportCategoriesButton.vue';
   import { Transaction } from './types/Transaction';
   import { isValidCategoryStructure } from './utils.ts';
 
@@ -80,6 +59,9 @@
       ThemeToggleButton,
       Footer,
       CategorizeTransactionsModal,
+      CategorizeTransactionsButton,
+      ImportCategoriesButton,
+      ExportCategoriesButton,
     },
     setup() {
       const transactions = ref<Transaction[]>([]);
