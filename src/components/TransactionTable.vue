@@ -131,19 +131,19 @@
     },
     setup(props) {
       const expenses = computed(() =>
-        props.transactions.filter((t) => parseFloat(t.Importe) < 0)
+        props.transactions.filter((t) => parseFloat(String(t.Importe)) < 0)
       );
       const incomes = computed(() =>
-        props.transactions.filter((t) => parseFloat(t.Importe) >= 0)
+        props.transactions.filter((t) => parseFloat(String(t.Importe)) >= 0)
       );
 
       const groupTransactions = (transactions: Transaction[]) => {
         return transactions.reduce(
           (acc, transaction) => {
-            if (!acc[transaction.Category]) {
-              acc[transaction.Category] = [];
+            if (!acc[transaction.Category ?? 'Others']) {
+              acc[transaction.Category ?? 'Others'] = [];
             }
-            acc[transaction.Category].push(transaction);
+            acc[transaction.Category ?? 'Others'].push(transaction);
             return acc;
           },
           {} as Record<string, Transaction[]>
@@ -155,24 +155,25 @@
 
       const getCategoryTotal = (transactions: Transaction[]) => {
         return transactions.reduce(
-          (sum, t) => sum + Math.abs(parseFloat(t.Importe)),
+          (sum, t) => sum + Math.abs(parseFloat(String(t.Importe))),
           0
         );
       };
 
       const totalExpenses = computed(() =>
         expenses.value.reduce(
-          (sum, t) => sum + Math.abs(parseFloat(t.Importe)),
+          (sum, t) => sum + Math.abs(parseFloat(String(t.Importe))),
           0
         )
       );
 
       const totalIncomes = computed(() =>
-        incomes.value.reduce((sum, t) => sum + parseFloat(t.Importe), 0)
+        incomes.value.reduce((sum, t) => sum + parseFloat(String(t.Importe)), 0)
       );
 
       const formatAmount = (amount: number | string) => {
-        const value = typeof amount === 'string' ? parseFloat(amount) : amount;
+        const value =
+          typeof amount === 'string' ? parseFloat(String(amount)) : amount;
         return new Intl.NumberFormat('es-ES', {
           style: 'currency',
           currency: 'EUR',
