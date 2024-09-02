@@ -2,6 +2,12 @@
 
 A web application to manage expenses, based on the script I have made to categorize my monthly expenses, [expense_categorizer](https://github.com/jorbush/expense_categorizer), but with a better UI and more features.
 
+
+
+https://github.com/user-attachments/assets/95477fe1-62cc-4531-8f69-9a66d2bf7e94
+
+
+
 ## Run development server
 
 ```bash
