@@ -1,6 +1,9 @@
 <template>
   <div class="overflow-x-auto mt-4">
-    <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">
+    <h2
+      v-if="transactions.length > 0"
+      class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200"
+    >
       Expenses
     </h2>
     <div
@@ -52,11 +55,17 @@
         </tbody>
       </table>
     </div>
-    <div class="text-xl font-bold mb-8 text-gray-800 dark:text-gray-200">
+    <div
+      v-if="transactions.length > 0"
+      class="text-xl font-bold mb-8 text-gray-800 dark:text-gray-200"
+    >
       Total Expenses: {{ formatAmount(totalExpenses) }}
     </div>
 
-    <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">
+    <h2
+      v-if="transactions.length > 0"
+      class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200"
+    >
       Incomes
     </h2>
     <div
@@ -108,11 +117,17 @@
         </tbody>
       </table>
     </div>
-    <div class="text-xl font-bold mb-8 text-gray-800 dark:text-gray-200">
+    <div
+      v-if="transactions.length > 0"
+      class="text-xl font-bold mb-8 text-gray-800 dark:text-gray-200"
+    >
       Total Incomes: {{ formatAmount(totalIncomes) }}
     </div>
 
-    <div class="text-2xl font-bold text-gray-800 dark:text-gray-200">
+    <div
+      v-if="transactions.length > 0"
+      class="text-2xl font-bold text-gray-800 dark:text-gray-200"
+    >
       Net Income: {{ formatAmount(totalIncomes - totalExpenses) }}
     </div>
   </div>
