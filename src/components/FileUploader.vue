@@ -45,7 +45,7 @@
             file.value = selectedFile;
             readFile(file.value);
           } else {
-            showInvalidFileTypeToast();
+            showToastError('Please select a valid Excel file (.xlsx or .xls)');
           }
         }
       };

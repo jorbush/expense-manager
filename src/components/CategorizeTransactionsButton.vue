@@ -1,7 +1,7 @@
 <template>
   <BaseButton
     text="Categorize Transactions"
-    aria-label="Categorize Transactions"
+    ariaLabel="Categorize Transactions"
     @click="$emit('click')"
   >
     <template #icon>

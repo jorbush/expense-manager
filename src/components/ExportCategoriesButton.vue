@@ -1,7 +1,7 @@
 <template>
   <BaseButton
     text="Export Categories"
-    aria-label="Export Categories"
+    ariaLabel="Export Categories"
     @click="exportCategories"
   >
     <template #icon>

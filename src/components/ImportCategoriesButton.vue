@@ -2,7 +2,7 @@
   <div>
     <BaseButton
       text="Import Categories"
-      aria-label="Import Categories"
+      ariaLabel="Import Categories"
       @click="triggerFileUpload"
     >
       <template #icon>
