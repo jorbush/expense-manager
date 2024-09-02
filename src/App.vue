@@ -19,7 +19,6 @@
               <CategorizeTransactionsButton @click="openCategorizeModal" />
             </div>
             <FileUploader @fileLoaded="handleFileLoaded" />
-
             <TransactionTable :transactions="transactions" />
           </div>
         </div>
@@ -161,6 +160,10 @@
       ) => {
         categories.value = updatedCategories;
         localStorage.setItem('categories', JSON.stringify(updatedCategories));
+        transactions.value = transactions.value.map((transaction) => ({
+          ...transaction,
+          Category: assignCategory(transaction.Concepto),
+        }));
       };
 
       loadCategories();
