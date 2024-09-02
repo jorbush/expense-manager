@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref, PropType } from 'vue';
+  import { defineComponent, ref, PropType, watch } from 'vue';
 
   export default defineComponent({
     props: {
@@ -49,13 +49,27 @@
     },
     emits: ['categoriesUpdated'],
     setup(props, { emit }) {
-      const localCategories = ref({ ...props.categories });
+      const localCategories = ref<Record<string, string[]>>({
+        ...props.categories,
+      });
+
+      watch(
+        () => props.categories,
+        (newCategories) => {
+          localCategories.value = { ...newCategories };
+        },
+        { deep: true }
+      );
+
+      const emitUpdate = () => {
+        emit('categoriesUpdated', localCategories.value);
+      };
 
       const addCategory = () => {
         const newCategory = prompt('Enter new category name');
-        if (newCategory) {
+        if (newCategory && !localCategories.value[newCategory]) {
           localCategories.value[newCategory] = [];
-          emit('categoriesUpdated', localCategories.value);
+          emitUpdate();
         }
       };
 
@@ -64,7 +78,7 @@
           confirm(`Are you sure you want to delete the category "${category}"?`)
         ) {
           delete localCategories.value[category];
-          emit('categoriesUpdated', localCategories.value);
+          emitUpdate();
         }
       };
 
@@ -74,13 +88,13 @@
         );
         if (newKeyword) {
           localCategories.value[category].push(newKeyword);
-          emit('categoriesUpdated', localCategories.value);
+          emitUpdate();
         }
       };
 
       const removeKeyword = (category: string, index: number) => {
         localCategories.value[category].splice(index, 1);
-        emit('categoriesUpdated', localCategories.value);
+        emitUpdate();
       };
 
       return {

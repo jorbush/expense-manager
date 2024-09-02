@@ -14,8 +14,8 @@
         <ExportCategoriesButton />
       </div>
       <CategoryManager
-        :categories="categories"
-        @categoriesUpdated="updateCategories"
+        :categories="localCategories"
+        @categoriesUpdated="updateLocalCategories"
       />
       <div class="flex justify-end mt-6">
         <button
@@ -58,7 +58,7 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, PropType } from 'vue';
+  import { defineComponent, PropType, watch, ref } from 'vue';
   import ImportCategoriesButton from './ImportCategoriesButton.vue';
   import ExportCategoriesButton from './ExportCategoriesButton.vue';
   import CategoryManager from './CategoryManager.vue';
@@ -81,6 +81,28 @@
     },
     emits: ['close', 'categoriesUpdated'],
     setup(props, { emit }) {
+      const localCategories = ref<Record<string, string[]>>({
+        ...props.categories,
+      });
+
+      watch(
+        () => props.categories,
+        (newCategories) => {
+          localCategories.value = { ...newCategories };
+        },
+        { deep: true }
+      );
+
+      const updateLocalCategories = (
+        updatedCategories: Record<string, string[]>
+      ) => {
+        localCategories.value = updatedCategories;
+      };
+
+      const saveChanges = () => {
+        emit('categoriesUpdated', localCategories.value);
+        emit('close');
+      };
 
       const updateCategories = (
         updatedCategories: Record<string, string[]>
@@ -88,25 +110,15 @@
         emit('categoriesUpdated', updatedCategories);
       };
 
-      const saveChanges = () => {
-        try {
-          localStorage.setItem('categories', JSON.stringify(props.categories));
-        } catch (error) {
-          toast.error('Error saving categories. Please try again.', {
-            position: 'top-right',
-            autoClose: 3000,
-          });
-        }
-        emit('close');
-      };
-
       const closeModal = () => {
         emit('close');
       };
 
       return {
-        updateCategories,
+        localCategories,
+        updateLocalCategories,
         saveChanges,
+        updateCategories,
         closeModal,
       };
     },
