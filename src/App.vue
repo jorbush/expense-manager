@@ -136,7 +136,12 @@
           (result: any) => result.id === id
         );
         if (selectedResult) {
-          transactions.value = selectedResult.transactions;
+          transactions.value = selectedResult.transactions.map(
+            (transaction) => ({
+              ...transaction,
+              Category: assignCategory(transaction.Concepto),
+            })
+          );
         }
       };
 
