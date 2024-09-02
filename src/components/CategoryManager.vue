@@ -7,12 +7,12 @@
     >
       <div class="flex items-center justify-between">
         <h3 class="text-lg font-semibold">{{ category }}</h3>
-        <button @click="removeCategory(category)" class="text-red-600">
+        <button @click="removeCategory(String(category))" class="text-red-600">
           Remove
         </button>
       </div>
       <div
-        v-for="(keyword, index) in keywords"
+        v-for="(_, index) in keywords"
         :key="index"
         class="flex items-center mt-2"
       >
@@ -21,13 +21,13 @@
           class="border rounded w-full px-2 py-1"
         />
         <button
-          @click="removeKeyword(category, index)"
+          @click="removeKeyword(String(category), index)"
           class="text-red-600 ml-2"
         >
           X
         </button>
       </div>
-      <button @click="addKeyword(category)" class="text-blue-600 mt-2">
+      <button @click="addKeyword(String(category))" class="text-blue-600 mt-2">
         Add Keyword
       </button>
     </div>

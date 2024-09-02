@@ -138,9 +138,7 @@
         isCategorizeModalOpen.value = false;
       };
 
-      const updateCategories = (
-        updatedCategories: Record<string, string[]>
-      ) => {
+      const updateCategories = (updatedCategories: Record<string, string[]>) => {
         categories.value = updatedCategories;
         localStorage.setItem('categories', JSON.stringify(updatedCategories));
       };
@@ -158,6 +156,7 @@
         closeCategorizeModal,
         isCategorizeModalOpen,
         updateCategories,
+        categories,
         darkMode,
       };
     },
