@@ -121,12 +121,13 @@
           ...transaction,
           Category: assignCategory(transaction.Concepto),
         }));
-        const id = new Date().toISOString();
+        const now = new Date();
+        const id = `${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
         const result = { id, transactions: processedTransactions };
         const storedResults = JSON.parse(
           localStorage.getItem('results') || '[]'
         );
-        storedResults.push(result);
+        storedResults.unshift(result);
         localStorage.setItem('results', JSON.stringify(storedResults));
         transactions.value = processedTransactions;
         document.dispatchEvent(new Event('updateResults'));

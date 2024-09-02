@@ -12,7 +12,7 @@
         v-for="result in results"
         :key="result.id"
         @click="selectResult(result.id)"
-        class="cursor-pointer p-2 px-5 hover:bg-gray-300"
+        class="cursor-pointer p-2 px-5 hover:bg-gray-300 text-center"
       >
         {{ result.id }}
       </li>
