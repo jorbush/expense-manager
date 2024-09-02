@@ -16,17 +16,26 @@
               <h1 class="text-3xl font-bold">Expense Manager</h1>
             </div>
             <div class="absolute top-0 right-0 mt-4 mr-4">
-              <div class="flex flex-row gap-2 sm:gap-4">
-                <ImportCategoriesButton @categoriesUpdated="loadCategories" />
-                <ExportCategoriesButton />
-              </div>
+              <button
+                @click="openCategorizeModal"
+                class="bg-vue-400 text-white px-4 py-2 rounded hover:bg-vue-600 mt-4"
+              >
+                Categorize Transactions
+              </button>
             </div>
             <FileUploader @fileLoaded="handleFileLoaded" />
+
             <TransactionTable :transactions="transactions" />
           </div>
         </div>
       </div>
       <Footer class="mt-auto" />
+      <CategorizeTransactionsModal
+        :isOpen="isCategorizeModalOpen"
+        :categories="categories || {}"
+        @close="closeCategorizeModal"
+        @categoriesUpdated="updateCategories"
+      />
     </div>
   </div>
 </template>
@@ -35,45 +44,57 @@
   import { defineComponent, ref } from 'vue';
   import FileUploader from './components/FileUploader.vue';
   import TransactionTable from './components/TransactionTable.vue';
-  import ImportCategoriesButton from './components/ImportCategoriesButton.vue';
   import Sidebar from './components/Sidebar.vue';
   import HamburgerButton from './components/HamburgerButton.vue';
   import ThemeToggleButton from './components/ThemeToggleButton.vue';
   import Footer from './components/Footer.vue';
+  import CategorizeTransactionsModal from './components/CategorizeTransactionsModal.vue';
   import { Transaction } from './types/Transaction';
-  import ExportCategoriesButton from './components/ExportCategoriesButton.vue';
+  import { isValidCategoryStructure } from './utils.ts';
 
   export default defineComponent({
     components: {
       FileUploader,
       TransactionTable,
-      ImportCategoriesButton,
       Sidebar,
       HamburgerButton,
       ThemeToggleButton,
       Footer,
-      ExportCategoriesButton,
+      CategorizeTransactionsModal,
     },
     setup() {
       const transactions = ref<Transaction[]>([]);
       const categories = ref<Record<string, string[]>>({});
       const isSidebarVisible = ref(false);
+      const isCategorizeModalOpen = ref(false);
       const darkMode = ref(false);
 
       const loadCategories = () => {
-        const storedCategories = localStorage.getItem('categories');
-        if (storedCategories) {
-          categories.value = JSON.parse(storedCategories);
-        } else {
-          const defaultCategories = {};
-          localStorage.setItem('categories', JSON.stringify(defaultCategories));
-          categories.value = defaultCategories;
-        }
+        try {
+          const storedCategories = localStorage.getItem('categories');
+          if (storedCategories) {
+            categories.value = JSON.parse(storedCategories);
+            if (!isValidCategoryStructure(categories.value)) {
+              throw new Error('Invalid category structure');
+            }
+          } else {
+            const defaultCategories = {};
+            localStorage.setItem(
+              'categories',
+              JSON.stringify(defaultCategories)
+            );
+            categories.value = defaultCategories;
+          }
 
-        transactions.value = transactions.value.map((transaction) => ({
-          ...transaction,
-          Category: assignCategory(transaction.Concepto),
-        }));
+          transactions.value = transactions.value.map((transaction) => ({
+            ...transaction,
+            Category: assignCategory(transaction.Concepto),
+          }));
+        } catch (error) {
+          console.error('Error loading categories:', error);
+          categories.value = {};
+          localStorage.setItem('categories', JSON.stringify(categories.value));
+        }
       };
 
       const handleFileLoaded = (data: Transaction[]) => {
@@ -122,6 +143,24 @@
         isSidebarVisible.value = !isSidebarVisible.value;
       };
 
+      const openCategorizeModal = () => {
+        if (!isCategorizeModalOpen.value) {
+          loadCategories();
+          isCategorizeModalOpen.value = true;
+        }
+      };
+
+      const closeCategorizeModal = () => {
+        isCategorizeModalOpen.value = false;
+      };
+
+      const updateCategories = (
+        updatedCategories: Record<string, string[]>
+      ) => {
+        categories.value = updatedCategories;
+        localStorage.setItem('categories', JSON.stringify(updatedCategories));
+      };
+
       loadCategories();
 
       return {
@@ -131,6 +170,11 @@
         handleResultSelected,
         isSidebarVisible,
         toggleSidebar,
+        openCategorizeModal,
+        closeCategorizeModal,
+        isCategorizeModalOpen,
+        updateCategories,
+        categories,
         darkMode,
       };
     },
