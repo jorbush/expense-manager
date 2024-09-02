@@ -26,8 +26,8 @@
 
 <script lang="ts">
   import { defineComponent } from 'vue';
-  import { toast } from 'vue3-toastify';
   import BaseButton from './BaseButton.vue';
+  import { showToastError } from '../utils.ts';
 
   export default defineComponent({
     name: 'ExportCategoriesButton',
@@ -46,10 +46,7 @@
           link.click();
           URL.revokeObjectURL(url);
         } else {
-          toast.error('No categories found in local storage.', {
-            position: 'top-right',
-            autoClose: 3000,
-          });
+          showToastError('No categories found in local storage.');
         }
       };
 

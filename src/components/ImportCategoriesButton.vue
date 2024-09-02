@@ -38,6 +38,7 @@
   import { toast } from 'vue3-toastify';
   import { isValidCategoryStructure } from '../utils.ts';
   import BaseButton from './BaseButton.vue';
+  import { showToastError } from '../utils.ts';
 
   export default defineComponent({
     name: 'ImportCategoriesButton',
@@ -73,22 +74,14 @@
                 });
                 emit('categoriesUpdated', newCategories || {});
               } else {
-                toast.error(
-                  'The imported file does not have the correct structure.',
-                  {
-                    position: 'top-right',
-                    autoClose: 3000,
-                  }
+                showToastError(
+                  'The imported file does not have the correct structure.'
                 );
               }
             } catch (error) {
               console.log(error);
-              toast.error(
-                'Failed to import categories. Please make sure the JSON format is correct.',
-                {
-                  position: 'top-right',
-                  autoClose: 3000,
-                }
+              showToastError(
+                'Failed to import categories. Please make sure the JSON format is correct.'
               );
             }
           };

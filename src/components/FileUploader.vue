@@ -22,8 +22,8 @@
 <script lang="ts">
   import { defineComponent, ref } from 'vue';
   import * as XLSX from 'xlsx';
-  import { toast } from 'vue3-toastify';
   import 'vue3-toastify/dist/index.css';
+  import { showToastError } from '../utils.ts';
 
   export default defineComponent({
     emits: ['fileLoaded'],
@@ -58,7 +58,7 @@
             file.value = droppedFile;
             readFile(file.value);
           } else {
-            showInvalidFileTypeToast();
+            showToastError('Please select a valid Excel file (.xlsx or .xls)');
           }
         }
       };
@@ -69,13 +69,6 @@
           'application/vnd.ms-excel',
         ];
         return validTypes.includes(file.type);
-      };
-
-      const showInvalidFileTypeToast = () => {
-        toast.error('Please select a valid Excel file (.xlsx or .xls)', {
-          position: 'top-right',
-          autoClose: 3000,
-        });
       };
 
       const readFile = (file: File) => {
